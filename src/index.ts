@@ -9,6 +9,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+console.log('hello')
+
 app.get("/", (req, res) => res.send("Backend is live"));
 
 const port = Number(process.env.PORT) || 3000;
