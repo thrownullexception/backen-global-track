@@ -21,8 +21,8 @@ export function authGuard (req: Request, res: Response, next: NextFunction) {
     {
         const decoded = jwt.verify(token, AppConfig.JWT_SECRET)
         req.user = decoded as JwtPayload
-    } catch (error)
+    } catch (error: any)
     {
-
+        next(error)
     }
 }
