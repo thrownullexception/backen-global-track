@@ -4,12 +4,13 @@ import { v4 as uuidv4 } from 'uuid'
 import bcrypt from 'bcrypt'
 import { UnAuthorisedRequestError } from "../../../utils/app-error";
 import { jwtHandler } from "../../../utils/Jwt-handle";
+import { JwtPayload } from "jsonwebtoken";
 
 
 // TODO CREATE USER AND LOGIN USER AND LOGOUT USE WITH COOKIES. AND MIDDLEWARE FOR VALIDATION,  ROLE AND AUTHGUARD
 
 // could have user email but decided to useId
-class AuthService {
+export class AuthService {
     userRepository: UserRepository
 
     constructor () {
@@ -41,7 +42,13 @@ class AuthService {
         return token
     }
 
-    async logOut (id: string) {
+    async logOut (payload: JwtPayload) {
 
+    }
+    async getLoogedInUser (userPayload: JwtPayload) {
+        const { id } = userPayload
+        const userFound = await this.userRepository.findUserById(id)
+        if (!userFound) throw new UnAuthorisedRequestError()
+        return userFound
     }
 }
