@@ -23,7 +23,8 @@ export class UserRepository {
     }
 
     async findUserByEmail (email: string) {
-        return await db.select().from(profiles).where(eq(profiles.email, email))
+        const users = await db.select().from(profiles).where(eq(profiles.email, email))
+        return users[ 0 ] || ''
     }
     async findUserById (id: string) {
         return await db.select().from(profiles).where(eq(profiles.id, id))
