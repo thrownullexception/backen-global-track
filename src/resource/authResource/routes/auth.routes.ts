@@ -5,7 +5,7 @@ import { validateIncomingData } from '../../../middleware/validations/validate-i
 import { authSchema, createAccountSchema } from '../../../lib/zod.schema'
 import { authGuard } from '../../../middleware/authrorization/auth-guard.middleware'
 
-const authRoute = Router()
+export const authRoute = Router()
 
 const authController = new AuthController()
 

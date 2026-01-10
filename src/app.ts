@@ -4,6 +4,7 @@ import cors from "cors";
 import { AppErr } from "./utils/app-error";
 import { ResponseHandler } from "./utils/response-handler";
 import cookieParser from "cookie-parser";
+import { authRoute } from "./resource/authResource/routes/auth.routes";
 
 
 const app = express();
@@ -17,6 +18,7 @@ app.use(cookieParser());
 app.use(express.json());
 
 
+app.use('/api/v1', authRoute);
 
 
 app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
