@@ -1,12 +1,12 @@
 import z, { email, string } from "zod";
 
 
-const authSchema = z.object({
+export const authSchema = z.object({
     email: z.email({ error: "Invalid email" }),
     password: z.string().min(3).max(10),
 })
 
-const createAccountSchema = authSchema.extend({
+export const createAccountSchema = authSchema.extend({
     fullName: z.string()
 })
 

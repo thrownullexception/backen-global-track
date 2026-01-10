@@ -5,7 +5,7 @@ export const APP_CONTANTS = {
     authEndPoints: {
         login: '/login',
         singup: '/signup',
-        logut: '/logout',
+        logot: '/logout',
         me: '/me',
         refresh: '/refresh'
     }

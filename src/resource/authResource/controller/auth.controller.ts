@@ -4,6 +4,10 @@ import { AuthDto, createAccountDto } from "../../../lib/zod.schema";
 import { ResponseHandler } from "../../../utils/response-handler";
 import { JwtPayload } from "jsonwebtoken";
 import { cookieOption } from "../../../constants";
+import config from "../../../config.ts/config";
+import jwt from "jsonwebtoken";
+import { jwtHandler } from "../../../utils/Jwt-handle";
+import { UnAuthorisedRequestError } from "../../../utils/app-error";
 
 
 
@@ -32,8 +36,8 @@ export class AuthController {
     handleLogin = async (req: Request, res: Response, next: NextFunction) => {
         try
         {
-            const { acessToken, refreshToken } = await this.authService.login(req.body as AuthDto)
-            res.cookie('accessToken', acessToken, cookieOption)
+            const { accessToken, refreshToken } = await this.authService.login(req.body as AuthDto)
+            res.cookie('accessToken', accessToken, cookieOption)
                 .cookie('refreshToken', refreshToken, cookieOption)
                 .status(201)
                 .json({ message: "login succesfull" })
@@ -54,6 +58,28 @@ export class AuthController {
         }
     }
 
+    handleRefresh = async (req: Request, res: Response, next: NextFunction) => {
+        const tokenFromClient = req.cookies.refreshToken
+        try
+        {
+
+            const payLoad = jwt.verify(tokenFromClient, config.JWT_SECRET) as JwtPayload
+            const { id } = payLoad
+            res.clearCookie('accessToken', cookieOption)
+                .clearCookie('refreshToken', cookieOption)
+
+            const { accessToken, refreshToken } = jwtHandler.generateToken(id)
+
+            res.cookie('accessToken', accessToken, cookieOption)
+                .cookie('refreshToken', refreshToken, cookieOption)
+                .status(200)
+                .json({ message: 'refresh successful' })
+
+        } catch (error: any)
+        {
+            next(new UnAuthorisedRequestError(error))
+        }
+    }
     handleLogout = async (req: Request, res: Response, next: NextFunction) => {
         try
         {
