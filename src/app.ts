@@ -31,7 +31,7 @@ app.use((err: Error, req: express.Request, res: express.Response, next: express.
     {
         ResponseHandler.error(res, err.message, err.statusCode);
     }
-    return ResponseHandler.error(res, "Internal server error and hello", 500);
+    return ResponseHandler.error(res, `Internal server error and hello ${ err }`, 500);
 });
 
 
