@@ -25,7 +25,7 @@ export const profiles = mysqlTable(
         city: varchar("city", { length: 100 }),
         country: varchar("country", { length: 100 }).default("Nigeria"),
         avatar_url: varchar("avatar_url", { length: 1000 }),
-        partner_code: varchar("partner_code", { length: 100 }),
+        // partner_code: varchar("partner_code", { length: 100 }),
         is_active: boolean("is_active").default(true),
         created_at: timestamp("created_at").defaultNow(),
         updated_at: timestamp("updated_at").defaultNow(),
