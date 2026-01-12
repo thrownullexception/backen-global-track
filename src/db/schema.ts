@@ -12,23 +12,31 @@ export const paymentStatus = [ 'pending', 'processing', 'completed', 'failed', '
 export const paymentProvider = [ 'paystack', 'stripe', 'bank_transfer' ] as const;
 
 
-export const profiles = mysqlTable('profiles', {
-    id: varchar('id', { length: 36 }).primaryKey().notNull(), // UUID stored as string
-    email: varchar('email', { length: 255 }).notNull().unique(),
-    password: varchar('password', { length: 255 }).notNull(),
-    full_name: varchar('full_name', { length: 255 }),
-    phone: varchar('phone', { length: 50 }),
-    company_name: varchar('company_name', { length: 255 }),
-    address: text('address'),
-    city: varchar('city', { length: 100 }),
-    country: varchar('country', { length: 100 }).default('Nigeria'),
-    avatar_url: text('avatar_url'),
-    partner_code: varchar('partner_code', { length: 100 }).unique(),
-    is_active: boolean('is_active').default(true),
-    created_at: timestamp('created_at').defaultNow(),
-    updated_at: timestamp('updated_at').defaultNow(),
-});
-
+export const profiles = mysqlTable(
+    "profiles",
+    {
+        id: varchar("id", { length: 36 }).primaryKey(),
+        email: varchar("email", { length: 255 }).notNull(),
+        password: varchar("password", { length: 255 }).notNull(),
+        full_name: varchar("full_name", { length: 255 }),
+        phone: varchar("phone", { length: 50 }),
+        company_name: varchar("company_name", { length: 255 }),
+        address: varchar("address", { length: 1000 }),
+        city: varchar("city", { length: 100 }),
+        country: varchar("country", { length: 100 }).default("Nigeria"),
+        avatar_url: varchar("avatar_url", { length: 1000 }),
+        partner_code: varchar("partner_code", { length: 100 }).$type<string | null>(),
+        is_active: boolean("is_active").default(true),
+        created_at: timestamp("created_at").defaultNow(),
+        updated_at: timestamp("updated_at").defaultNow(),
+    },
+    (table) => ({
+        emailUnique: uniqueIndex("profiles_email_unique").on(table.email),
+        partnerCodeUnique: uniqueIndex("profiles_partner_code_unique").on(
+            table.partner_code
+        ),
+    })
+);
 
 export const user_roles = mysqlTable('user_roles', {
     id: varchar('id', { length: 36 }).primaryKey(),
