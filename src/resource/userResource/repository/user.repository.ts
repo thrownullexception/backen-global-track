@@ -1,6 +1,8 @@
 import { eq } from "drizzle-orm";
 import { db } from "../../../db";
 import { profiles, user_roles } from "../../../db/schema";
+import { v4 as uuidv4 } from 'uuid'
+
 
 
 type UserDto = {
@@ -30,8 +32,11 @@ export class UserRepository {
         const users = await this.db.select().from(profiles).where(eq(profiles.id, id))
         return users[ 0 ] ?? null
     }
-    async getUserRole (id: string) {
+    async getUserRoles (id: string) {
         const userRole = await this.db.select({ role: user_roles.role }).from(user_roles).where(eq(user_roles.user_id, id))
         return userRole[ 0 ] ?? null
+    }
+    async defaultRole (userId: string) {
+        await this.db.insert(user_roles).values({ user_id: userId, role: 'customer', id: uuidv4() })
     }
 }

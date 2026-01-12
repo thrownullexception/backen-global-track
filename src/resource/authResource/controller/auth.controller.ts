@@ -9,6 +9,7 @@ import jwt from "jsonwebtoken";
 import { jwtHandler } from "../../../utils/Jwt-handle";
 import { UnAuthorisedRequestError } from "../../../utils/app-error";
 import { extractDbError } from "../../../utils/extract-db-error";
+import { extractSessionMeta } from "../../../utils/extract-session-meta";
 
 
 
@@ -39,11 +40,13 @@ export class AuthController {
     handleLogin = async (req: Request, res: Response, next: NextFunction) => {
         try
         {
-            const { accessToken, refreshToken } = await this.authService.login(req.body as AuthDto)
-            res.cookie('accessToken', accessToken, cookieOption)
-                .cookie('refreshToken', refreshToken, cookieOption)
+            const meta = extractSessionMeta(req)
+            const data = await this.authService.login(req.body as AuthDto, meta)
+            res.cookie('accessToken', data.token, cookieOption)
+                .cookie('sessionData', data.refreshToken, cookieOption)
+                .cookie('sessionId', data.sessionId, cookieOption)
                 .status(201)
-                .json({ message: "login succesfull" })
+                .json(data.user)
         } catch (error)
         {
             next(error)
@@ -54,7 +57,9 @@ export class AuthController {
         try
         {
             const loggedinUser = await this.authService.getLoogedInUser(req.user as JwtPayload)
-            ResponseHandler.success(res, 'logged in user', loggedinUser, 200)
+
+            console.log(loggedinUser)
+            res.status(200).json(loggedinUser)
         } catch (error)
         {
             next(error)
@@ -62,19 +67,13 @@ export class AuthController {
     }
 
     handleRefresh = async (req: Request, res: Response, next: NextFunction) => {
-        const tokenFromClient = req.cookies.refreshToken
         try
         {
 
-            const payLoad = jwtHandler.verify(tokenFromClient, 'refresh') as JwtPayload
-            const { id } = payLoad
-            res.clearCookie('accessToken', cookieOption)
-                .clearCookie('refreshToken', cookieOption)
-
-            const { accessToken, refreshToken } = jwtHandler.generateToken(id)
-
+            const { accessToken, refreshToken, sessionId } = await this.authService.refresh(req.cookies.sessionId, req.cookies.refreshToken)
             res.cookie('accessToken', accessToken, cookieOption)
                 .cookie('refreshToken', refreshToken, cookieOption)
+                .cookie('sessionId', sessionId, cookieOption)
                 .status(200)
                 .json({ message: 'refresh successful' })
         } catch (error: any)
@@ -87,6 +86,7 @@ export class AuthController {
         {
             res.clearCookie('accessToken', cookieOption)
                 .clearCookie('refreshToken', cookieOption)
+                .clearCookie('sessionId', cookieOption)
                 .status(200)
                 .json({ message: 'Log out successful' })
         } catch (error)

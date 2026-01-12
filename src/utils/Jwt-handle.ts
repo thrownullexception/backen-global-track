@@ -4,13 +4,11 @@ import crypto from 'crypto'
 
 export const jwtHandler = {
     generateToken: (id: string) => {
-        const accessToken = jwt.sign({ id }, AppConfig.ACCESS_SECRET, { expiresIn: '15m' })
-        const refreshToken = jwt.sign({ id }, AppConfig.REFRESH_SECRET, { expiresIn: '7d', algorithm: "HS384" })
-        return { refreshToken, accessToken }
+        return jwt.sign({ id }, AppConfig.ACCESS_SECRET, { expiresIn: '15m' })
+
     },
-    verify: (token: string, type: 'access' | 'refresh') => {
-        const secret = type === 'access' ? AppConfig.ACCESS_SECRET : AppConfig.REFRESH_SECRET;
-        const decoded = jwt.verify(token, secret);
+    verify: (token: string) => {
+        const decoded = jwt.verify(token, AppConfig.ACCESS_SECRET);
         return decoded;
     },
     generateRefreshToken: () => {
@@ -18,5 +16,8 @@ export const jwtHandler = {
     },
     hashToken (token: string) {
         return crypto.createHash('sha256').update(token).digest('hex');
+    },
+    refreshExpiry () {
+        return new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
     }
 }

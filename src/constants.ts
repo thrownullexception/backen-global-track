@@ -5,11 +5,11 @@ export const BASE_URL = "/global-tracker/api/v1"
 
 export const APP_CONTANTS = {
     authEndPoints: {
-        login: '/login',
-        singup: '/signup',
-        logot: '/logout',
-        me: '/me',
-        refresh: '/refresh'
+        login: '/auth/login',
+        singup: '/auth/signup',
+        logout: '/auth/logout',
+        me: '/auth/me',
+        refresh: '/auth/refresh'
     }
 
 }

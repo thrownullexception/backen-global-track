@@ -11,6 +11,6 @@ const authController = new AuthController()
 
 authRoute.post(APP_CONTANTS.authEndPoints.login, validateIncomingData(authSchema), authController.handleLogin)
 authRoute.post(APP_CONTANTS.authEndPoints.singup, validateIncomingData(createAccountSchema), authController.handleSignUp)
-authRoute.post(APP_CONTANTS.authEndPoints.me, authGuard, authController.handgetLoggedInUser)
-authRoute.post(APP_CONTANTS.authEndPoints.logot, authGuard, authController.handleLogout)
+authRoute.get(APP_CONTANTS.authEndPoints.me, authGuard, authController.handgetLoggedInUser)
+authRoute.post(APP_CONTANTS.authEndPoints.logout, authGuard, authController.handleLogout)
 authRoute.post(APP_CONTANTS.authEndPoints.refresh, authController.handleRefresh)
