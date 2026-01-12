@@ -6,6 +6,8 @@ import { ResponseHandler } from "./utils/response-handler";
 import cookieParser from "cookie-parser";
 import { authRoute } from "./resource/authResource/routes/auth.routes";
 import { BASE_URL } from "./constants";
+import { db } from "./db";
+import { profiles } from "./db/schema";
 
 
 const app = express();
@@ -24,6 +26,12 @@ app.use(express.json());
 app.get("/hello", (req, res) => {
     res.send("API is running...");
 });
+
+app.get('/test', async (req, res) => {
+    const users = await db.select().from(profiles)
+    res.json(users);
+})
+
 app.use(BASE_URL, authRoute);
 
 
