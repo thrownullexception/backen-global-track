@@ -15,6 +15,9 @@ export function extractDbError (error: any): Error {
         }
 
         return new ConflictError("Duplicate record");
+    } else
+    {
+        return new ConflictError(error.cause?.sqlMessage || error.message);
     }
 
     // Foreign key constraint
