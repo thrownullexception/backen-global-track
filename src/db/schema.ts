@@ -32,9 +32,6 @@ export const profiles = mysqlTable(
     },
     (table) => ({
         emailUnique: uniqueIndex("profiles_email_unique").on(table.email),
-        partnerCodeUnique: uniqueIndex("profiles_partner_code_unique").on(
-            table.partner_code
-        ),
     })
 );
 
