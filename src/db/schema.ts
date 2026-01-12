@@ -14,7 +14,7 @@ export const paymentProvider = [ 'paystack', 'stripe', 'bank_transfer' ] as cons
 
 export const profiles = mysqlTable('profiles', {
     id: varchar('id', { length: 36 }).primaryKey().notNull(), // UUID stored as string
-    email: varchar('email', { length: 255 }).notNull(),
+    email: varchar('email', { length: 255 }).notNull().unique(),
     password: varchar('password', { length: 255 }).notNull(),
     full_name: varchar('full_name', { length: 255 }),
     phone: varchar('phone', { length: 50 }),
