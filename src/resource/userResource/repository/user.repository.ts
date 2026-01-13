@@ -30,7 +30,7 @@ export class UserRepository {
         return users[ 0 ] ?? null
     }
     async findUserById (id: string) {
-        const users = await this.db.select({ email: profiles.email, fullName: profiles.full_name }).from(profiles).where(eq(profiles.id, id))
+        const users = await this.db.select({ id: profiles.id, email: profiles.email, fullName: profiles.full_name }).from(profiles).where(eq(profiles.id, id))
         return users[ 0 ] ?? null
     }
     async getUserRoles (id: string) {
