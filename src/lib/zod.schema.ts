@@ -2,9 +2,27 @@ import z, { boolean, email, string } from "zod";
 import { shipmentStatus } from "../db/schema";
 
 
+type TProfileData = {
+
+}
 
 
 
+export const UpdateProfileSchema = z.object({
+    email: z.email().optional(),
+    password: z.string().optional(),
+    id: z.string().optional(),
+    full_name: z.string().optional(),
+    phone: z.string().optional(),
+    company_name: z.string().optional(),
+    address: z.string().optional(),
+    city: z.string().optional(),
+    country: z.string().optional(),
+    avatar_url: z.string().optional(),
+    partner_code: z.string().optional(),
+    is_active: z.boolean().optional(),
+    updated_at: z.boolean().optional()
+})
 
 export const createShipmentSchema = z.object({
     senderName: z.string(),
@@ -18,13 +36,13 @@ export const createShipmentSchema = z.object({
     receiverAddress: z.string(),
     receiverCity: z.string(),
     totalWeightKg: z.number(),
-    declaredValueNg: z.number(),
-    shipCostNg: z.number(),
+    declaredValueNgn: z.number(),
+    shippingCostNgn: z.number(),
     insuranceCost: z.number(),
-    totalCostNg: z.number(),
+    totalCostNgn: z.number(),
+    specialInstructions: z.string().nullable(),
     isFragile: z.boolean(),
     requiresInsurance: z.boolean(),
-    specialInstrinction: z.string().nullable(),
     status: z.enum(shipmentStatus)
 })
 

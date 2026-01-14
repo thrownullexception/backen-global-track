@@ -10,6 +10,7 @@ import { db } from "./db";
 import { profiles } from "./db/schema";
 import { userRoutes } from "./resource/userResource/routes/user.routes";
 import { shipmentRoute } from "./resource/shipmentResource/route/shipments.routes";
+import { adminRoutes } from "./resource/adminResource/routes/admin.routes";
 
 
 const app = express();
@@ -37,6 +38,7 @@ app.get('/test', async (req, res) => {
 app.use(BASE_URL, authRoute);
 app.use(BASE_URL, userRoutes)
 app.use(BASE_URL, shipmentRoute)
+app.use(BASE_URL, adminRoutes)
 
 app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
     if (err instanceof AppErr)

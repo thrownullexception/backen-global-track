@@ -42,7 +42,7 @@ export class ShipController {
             res.status(201).json(shipment)
         } catch (error)
         {
-            next(error)
+            console.log(error)
         }
     }
     handleCreateShipmentItem = async (req: Request, res: Response, next: NextFunction) => {

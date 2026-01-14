@@ -20,4 +20,15 @@ export class UserController {
             next(error)
         }
     }
+    handleUpdateProfile = async (req: Request, res: Response, next: NextFunction) => {
+        try
+        {
+            console.log(req.body)
+            await this.userService.updateUserProfile(req.user as JwtPayload, req.body)
+            res.status(200).json({ message: 'Profile updated successfully' })
+        } catch (error)
+        {
+            next(error)
+        }
+    }
 }

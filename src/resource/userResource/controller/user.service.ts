@@ -1,5 +1,5 @@
 import { JwtPayload } from "jsonwebtoken";
-import { UserRepository } from "../repository/user.repository";
+import { TProfileData, UserRepository } from "../repository/user.repository";
 
 
 export class UserService {
@@ -12,5 +12,9 @@ export class UserService {
     async getUserProfile (payload: JwtPayload) {
         const { id } = payload
         return await this.userRepository.findUserById(id)
+    }
+    async updateUserProfile (payload: JwtPayload, profileData: TProfileData) {
+        const { id } = payload
+        await this.userRepository.updateUserProfile(id, profileData)
     }
 }

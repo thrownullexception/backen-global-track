@@ -8,3 +8,4 @@ export const userRoutes = Router()
 const userController = new UserController()
 
 userRoutes.get(APP_CONTANTS.userEndPoints.profileDetails, authGuard, userController.handleLoadProfile)
+userRoutes.put(APP_CONTANTS.userEndPoints.profileUpdate, authGuard, userController.handleUpdateProfile)

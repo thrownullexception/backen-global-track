@@ -75,13 +75,13 @@ export class ShipmentService {
             receiver_address: data.receiverAddress,
             receiver_city: data.receiverCity,
             total_weight_kg: JSON.stringify(data.totalWeightKg),
-            declared_value_ngn: JSON.stringify(data.declaredValueNg),
-            shipping_cost_ngn: JSON.stringify(data.shipCostNg),
+            declared_value_ngn: JSON.stringify(data.declaredValueNgn),
+            shipping_cost_ngn: JSON.stringify(data.shippingCostNgn),
             insurance_cost: JSON.stringify(data.insuranceCost),
-            total_cost_ngn: JSON.stringify(data.totalCostNg),
+            total_cost_ngn: JSON.stringify(data.totalCostNgn),
             is_fragile: data.isFragile,
             requires_insurance: data.requiresInsurance,
-            special_instructions: data.specialInstrinction,
+            special_instructions: data.specialInstructions,
             status: status,
         }
 

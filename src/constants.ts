@@ -1,9 +1,15 @@
 import { CookieOptions } from "express"
+import { profile } from "node:console"
 
 
 export const BASE_URL = "/global-tracker/api/v1"
 
 export const APP_CONTANTS = {
+    adminEndPoints: {
+        allShipments: '/admin/all-shipments',
+        partnerDetails: '/admin/partner-details',
+        paymentDetails: '/admin/payment-details'
+    },
     authEndPoints: {
         login: '/auth/login',
         singup: '/auth/signup',
@@ -12,7 +18,8 @@ export const APP_CONTANTS = {
         refresh: '/auth/refresh'
     },
     userEndPoints: {
-        profileDetails: '/profile'
+        profileDetails: '/profile',
+        profileUpdate: '/profile/update'
     },
     shipmentEndPoints: {
         shipment: '/shipment',
